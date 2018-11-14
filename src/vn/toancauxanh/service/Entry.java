@@ -258,7 +258,8 @@ public class Entry extends BaseObject<Object> {
 
 	@RequestMapping(value = "/")
 	public String home() {
-		return "forward:/frontend/index.zhtml?&file=/frontend/home/home.zhtml";
+//		return "forward:/frontend/index.zhtml?&file=/frontend/home/home.zhtml";
+		return "forward:/zkdemo/quanLyNguoiDung.zul";
 	}
 	
 	@RequestMapping(value = "/{path:.+$}/{cat:\\d+}/id/{id:\\d+}")
