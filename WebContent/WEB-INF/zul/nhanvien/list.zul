@@ -1,0 +1,66 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<div xmlns:zk="zk" xmlns:n="native" xmlns:x="xhtml" apply="org.zkoss.bind.BindComposer"
+	zk:viewModel="@id('vm') @init('vn.toancauxanh.cms.service.CategoryService')" >
+	<n:div class="content-header">
+		<n:h1 class="header_title">Danh Mục Hạng Mục</n:h1>
+	</n:div>
+	<n:div class="content">
+		<n:div class="row">
+			<n:div class="col-md-12">
+				<n:div class="box box-info">
+		    		<n:div class="box-header">
+		    			<n:h3 class="box-title">Tìm kiếm</n:h3>
+	    				<n:div class="box-tools pull-right">
+	    					<n:button type="button" class="btn btn-box-tool" data-widget="collapse"><n:i class="fa fa-minus"></n:i></n:button>
+	    				</n:div>	    				
+	    			</n:div>
+	    			<n:div class="box-body">
+	    				<n:div class="row">
+	    					<n:div class="col-lg-3 col-md-3 col-sm-4">
+		    					<n:div class="form-group" >
+		    						<x:label class="control-label">Từ khóa</x:label>
+									<textbox class="form-control" value="@bind(vm.arg.tukhoa)" placeholder="Nhập tên hạng mục"
+										onOK="@command('cmd', notify=vm, attr='targetQuery')" />
+								</n:div>
+							</n:div>
+							<n:div class="col-lg-3 col-md-3 col-sm-4">
+								<n:div class="form-group">
+									<n:label class="control-label">Trạng Thái</n:label>
+									<combobox readonly="true" style="display: block" width="100%" placeholder="--Chọn--" 
+											model="@load(entry.trangThaiListAndNull)" selectedItem="@bind(vm.arg.trangthai)">
+										<template name="model">
+											<comboitem value="@load(each.key)" label="@load(each.value eq '' ? '--Chọn--' : each.value)"/>
+										</template>
+									</combobox>
+								</n:div>
+							</n:div>
+							<n:div class="col-md-3">
+	    						<x:label class="control-label">&#160;</x:label>
+	    						<n:div class="form-group">
+	    							<x:button class="btn btn-warning" type="button" onClick="@command('cmd', notify=vm, attr='*')" >
+										<n:i class="fa fa-search"></n:i> Tìm kiếm
+									</x:button>
+	    						</n:div>
+	    					</n:div>
+						</n:div>
+					</n:div>
+				</n:div>					
+			</n:div>
+			<n:div class="col-md-12">
+				<n:div class="box box-success">
+    				<n:div class="box-header">
+	    				<n:h3 class="box-title"></n:h3>
+	    				<n:div class="box-tools pull-right">
+	    					<x:button class="btn btn-success" zk:if="${entry.quyen.hangmuc_them}" 
+	    						onClick="@command('redirectPage', zul='hangmuc/add.zul', vmArgs=vm, vm=null)">
+    							<n:i class="fa fa-plus"></n:i>&#160;&#160;Thêm mới
+    						</x:button>
+	    				</n:div>
+	    			</n:div>
+	    		</n:div>	
+			</n:div>
+		</n:div>
+	</n:div>
+</div>
+</zk>
