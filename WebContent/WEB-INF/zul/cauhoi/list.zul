@@ -1,0 +1,111 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+
+<zk>
+<style>
+			.label_control{
+				background-color: #FDF5E8;
+				color: black;
+				height: 45px;
+				padding-left: 0.5em;
+				margin:0;
+			}
+			.main_form{
+				margin-left: 1em;
+				border-radius: 3px
+				padding:0;
+			}
+			.form-control{
+				width: 100%;
+				height: 30px;				
+			}
+			.text-box{
+				margin-top:1em;
+				width: 100%;
+				height: 150px;
+			}
+			.button1{
+				 float: left;
+				 padding :5px;
+			 	 font-size 160%;
+			 	 margin-right : 0.5em;
+			 	 height: 30px;
+			 	 width : 100px;
+			}
+			.text_box2{
+				width: 90%;
+				margin-left:0px;
+				height: 30px;
+			}	
+			combo_box1{
+				width: 90%;
+				margin-left:0px;
+				height: 30px;
+			}	
+</style>	
+<div xmlns:zk="zk" xmlns:n="native" xmlns:x="xhtml" apply="org.zkoss.bind.BindComposer"
+	id="wdn" border="normal" mode="modal" action="show: slideIn"
+	contentStyle="overflow:auto;" closable="true" title="${arg.save}"
+	onClose="@command('invokeGG', notify=vmArgs, detach=wdn, attr='targetQuery')"
+	whatever="@load(true,after='saveCauHoi') @converter('vn.toancauxanh.service.DetachConverter')"
+	zk:viewModel="@id('vm') @init('vn.toancauxanh.gg.model.CauHoi')" >
+	<n:div class="content-header">
+		<n:h1 class="header_title">TƯƠNG TÁC CỬ TRI</n:h1>
+	</n:div>
+	<n:div class="content">
+		<n:div class="row">
+			<n:div class="col-md-8">
+				<n:div class="box box-info"  style="padding: 2em;">
+		    		<n:div class="box-header"  style="padding: 1em;">
+					<div class = "row">
+						<div>
+							<n:h4>Hỏi đáp và góp ý về HĐND huyện Hòa Vang</n:h4>
+						</div>
+					</div>
+					<div class = "row">
+						<textbox class="form-control" maxlength="255" placeholder="Tiêu đề câu hỏi, góp ý"
+							value="@load(vm.tieuDe) @save(vm.tieuDe, before='saveCauHoi') 
+							@validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')"></textbox>
+					</div>
+					<div class="row">
+						<textbox class = "text-box" id="text" multiline="true" placeholder="Nội dung câu hỏi, góp ý"
+							value="@load(vm.noiDung) @save(vm.noiDung, before='saveCauHoi') 
+							@validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')"></textbox>
+					</div>
+					<div class="row" style="margin-top: 0.5em;">
+						<button type="button" class="button1" label="Thêm tệp tin"/>
+						<n:h6> *Chú ý: Mỗi tập tin đính kèm tối đa được gửi là 5MB</n:h6>														
+					</div>
+					<div class="row">
+						<x:button style="height: 30px; border-radius: 12px; bobackground-color:#FEA934; float:right;" onClick="@command('redirectPage', zul='cauhoi/add.zul', vmArgs=vm, vm=null)">
+							<n:i class="fa fa-search"></n:i>&#160;&#160;Đặt câu hỏi/góp ý
+						</x:button>									
+					</div>
+					<div class="row"><div style="margin-top: 2em; border-bottom: 1px dotted gray;"></div></div>
+					<div class="row">
+						<n:h4>Danh sách các hỏi đáp và góp ý của HĐND huyện</n:h4>
+					</div>
+					<div class="row">
+						<div class="col-md-5">
+							<div class = "row">
+								<textbox class="text_box2" maxlength="255" placeholder="Nhập từ khóa cần tìm"></textbox>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class = "row">
+								<combobox class="combo_box1" maxlength="255" placeholder="Chọn lĩnh vực" style="width: 90%;"></combobox>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class = "row">
+								<button type="button" class="button1" style="background-color:red;" label="Tìm kiếm"/>
+							</div>
+						</div>
+					</div>
+				</n:div>					
+			</n:div>
+			<n:div class="col-md-4"><n:div class="box box-info"></n:div></n:div>		
+		</n:div>
+	</n:div>
+	</n:div>
+</div>
+</zk>
