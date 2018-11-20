@@ -1,0 +1,232 @@
+<!-- Bootstrap 3.3.6 -->
+<?style href="/backend/admin-lte/bootstrap/css/bootstrap.css" type="text/css" ?>
+<!-- Font Awesome -->
+
+<?page title="HĐND Hòa Vang" contentType="text/html;charset=UTF-8"?>
+<?meta http-equiv="X-UA-Compatible" content="IE=edge"?>
+<?link rel="icon" href="/img/favicon.png" type="image/x-icon" ?>
+<?meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"?>
+
+<zk xmlns:n="native" xmlns:x="xhtml" xmlns:zk="zk"
+	zk:viewModel="@id('vm') @init('vn.toancauxanh.cms.service.CauHoiService')" >
+
+<!-- <script type="text/javascript" src="/backend/admin-lte/plugins/jQuery/jQuery-2.2.0.min.js" defer="true"></script> -->
+<!-- 3.3.6 -->
+<script type="text/javascript" src="/backend/admin-lte/bootstrap/js/bootstrap.js" />
+<!-- FastClick -->
+<script type="text/javascript" src="/backend/admin-lte/plugins/fastclick/fastclick.js" />
+<!-- SlimScroll 1.3.0 -->
+<script type="text/javascript" src="/backend/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js" />
+<!-- AdminLTE for demo purposes -->
+<script type="text/javascript" src="/backend/admin-lte/dist/js/demo.js" />
+<!-- AdminLTE App -->
+<script type="text/javascript" src="/backend/admin-lte/dist/js/app.js" defer="true"/>
+<!-- Toastr js -->
+<script type="text/javascript" src="/backend/toastr/build/toastr.min.js" />
+<!-- PACE -->
+<script type="text/javascript" src="/backend/admin-lte/plugins/pace/pace.min.js" />
+
+		<zscript><![CDATA[
+			entry = new vn.toancauxanh.service.BaseObject().core();
+			nhanVien = entry.getNhanVien();
+			int testValue = 4;
+			String resource = execution.getParameter("resource");
+			String action = execution.getParameter("action");
+			String macDinh = execution.getParameter("macdinh");
+			String backurl = execution.getParameter("backurl");
+			String file = execution.getParameter("file");
+			String ctxPath = execution.getContextPath();
+			String serverName = execution.getServerName() + "";
+			String serverPort = execution.getServerPort() + "";
+			String urlImage = "http://" + serverName + ":" + serverPort + "/" + ctxPath;
+			boolean coquyen = entry.quyen.get(resource + "_" + action);
+			dakhoa = entry.nhanVienDaKhoa;
+			chuakhoa = !entry.nhanVienDaKhoa;
+			chuakichhoat = entry.nhanVienDaKichHoat;
+			dakichhoat = entry.nhanVienDaKichHoat;
+			boolean noiDungActived = entry.noiDungActive.contains(resource);
+		]]></zscript>
+		<style>
+			.label_control{
+				background-color: #FDF5E8;
+				color: black;
+				height: 45px;
+				padding-left: 0.5em;
+				margin:0;
+			}
+			.main_form{
+				margin-left: 1em;
+				border-radius: 3px
+				padding:0;
+			}
+			.form-control{
+				width: 100%;
+				height: 30px;				
+			}
+			.text-box{
+				margin-top:1em;
+				width: 100%;
+				height: 150px;
+			}
+			.button1{
+				 float: left;
+				 padding :5px;
+			 	 font-size 160%;
+			 	 margin-top : 0.5em;
+			 	 margin-right: 0.5em;
+			}
+			.text_box{
+				width: 90%;
+				margin-left:0px;
+				height: 30px;
+			}	
+			combo_box{
+				width: 90%;
+				margin-left:0px;
+				height: 80px;
+			}		
+
+		</style>
+		<div>
+			<n:header>
+			   <n:img src="backend/assets/img/Capture.PNG" alt="HDNDHV"></n:img>
+			</n:header>
+			<div class="row">
+				<div class="col-md-2">
+					
+				</div>
+				<div class="col-md-2" style="padding:0;">
+					<n:img src="backend/assets/img/sxc.PNG" alt="HDNDHVA"></n:img>
+				</div>
+				<div class="col-md-6">
+					<div class="row"  style="padding-top: 1em;">
+						<div class="main_form">
+							<div class="col-md-12">
+									<div class="row" style="padding:0;">
+										<div class="label_control">
+											<n:h2>TƯƠNG TÁC CỬ TRI</n:h2>
+										</div>
+									</div>
+									<div class = "row">
+										<div>
+											<n:h4>Hỏi đáp và góp ý về HĐND huyện Hòa Vang</n:h4>
+										</div>
+									</div>
+									<div class = "row">
+										<textbox class="form-control" maxlength="255" placeholder="Tiêu đề câu hỏi, góp ý"></textbox>
+									</div>
+									<div class="row">
+										<textbox class = "text-box" id="text" multiline="true" placeholder="Nội dung câu hỏi, góp ý"></textbox>
+									</div>
+									<div class="row" style="margin-top: 0.5em;">
+										<button type="button" class="button1" label="Thêm tệp tin"/>
+										<n:h6> *Chú ý: Mỗi tập tin đính kèm tối đa được gửi là 5MB</n:h6>														
+									</div>
+									<div class="row">
+										<x:button class="button1" style="background-color:#FDC75C; float:right;" onClick="@command('redirectPage', zul='cauhoi/add.zul', vmArgs=vm, vm=null)">
+											<n:i class="fa fa-search"></n:i>&#160;&#160;Đặt câu hỏi/góp ý
+										</x:button>									
+									</div>
+									<div class="row"><div style="margin-top: 2em; border-bottom: 1px dotted gray;"></div></div>
+									<div class="row">
+										<n:h4>Danh sách các hỏi đáp và góp ý của HĐND huyện</n:h4>
+									</div>
+									<div class="row">
+										<div class="col-md-5">
+											<div class = "row">
+												<textbox class="text_box" maxlength="255" placeholder="Nhập từ khóa cần tìm"></textbox>
+											</div>
+										</div>
+										<div class="col-md-5">
+											<div class = "row">
+												<combobox class="combo_box" maxlength="255" placeholder="Chọn lĩnh vực"></combobox>
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class = "row">
+												<button type="button" class="button1" style="background-color:red;" label="Tìm kiếm"/>
+											</div>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+				<div class="col-md-2">
+				
+				</div>
+			</div>
+		</div>
+		
+		 	<!-- Content Wrapper. Contains page content -->
+		  	<n:div class="content-wrapper">
+			    <include if="${coquyen and !dakhoa and dakichhoat}" instant="true" src="${file}"></include>
+				<n:session zk:if="${!(coquyen and !dakhoa and dakichhoat)}">
+					<div style="height: 30px;">
+					</div>
+					<div class="alert aler-notification">
+						<label if="${!coquyen and !dakhoa and dakichhoat}">Bạn không có quyền truy cập chức năng này !</label>
+						<label if="${dakhoa and dakichhoat}">Tài khoản của bạn đã bị khóa!</label>
+						<label if="${!dakhoa and !dakichhoat}">Tài khoản của bạn chưa được kích hoạt!</label>
+						<label if="${dakhoa and !dakichhoat}">Tài khoản của bạn đã bị khóa và chưa được kích hoạt!</label>
+					</div>
+				</n:session>
+		  	</n:div>
+		  	<!-- /.content-wrapper -->
+		
+		  	<!-- /.control-sidebar -->
+		  	<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+		  	<n:div class="control-sidebar-bg"></n:div>
+		<!-- ./wrapper -->
+	<n:script>
+		$(document).ajaxStart(function() { Pace.restart(); });
+	</n:script>
+	<n:script>
+		$(function() {
+		    var oldAlert = jq.alert;
+			jq.alert = function (msg, opts) {
+				if (!msg.indexOf('the request was rejected because its size')) {
+					msg = msg.replace('the request was rejected because its size (', '');
+					msg = msg.replace(') exceeds the configured maximum (', '_');
+					msg = msg.replace(')', '');
+					var v2 = msg.substring(msg.indexOf('_')+1, msg.length);
+					var n2 = (parseInt(v2)/1024/ 1024).toFixed(2) + 'MB';
+					newMsg = "File upload có dung lượng vượt quá " + n2;
+					opts.title = "Lỗi";
+					toastrError(newMsg,"");
+					//oldAlert(newMsg, opts);
+				} else if (!msg.indexOf('The request was rejected because the file size')) {
+					msg = msg.replace('The request was rejected because the file size (', '');
+					msg = msg.replace(') exceeds the configured maximum (', '_');
+					msg = msg.replace(')', '');
+					var v2 = msg.substring(msg.indexOf('_')+1, msg.length);
+					//var n2 = (parseInt(v2)/1024/ 1024).toFixed(2) + 'MB';
+					newMsg = "File upload có dung lượng vượt quá " + v2;
+					opts.title = "Lỗi";
+					toastrError(newMsg,"");
+					//oldAlert(newMsg, opts);
+				} else {
+					oldAlert(msg, opts);
+				}
+			}
+		});
+		$(".item-noti").slice(0, 10).show();
+		$('#loadMore').on('click', function(e) {
+	   		e.stopPropagation();
+	    });
+		$("#loadMore").on('click', function (e) {
+	       $(".notifications-menu").addClass("open");
+	       $(".item-noti:hidden").slice(0, 10).slideDown();
+	       if ($(".item-noti:hidden").length == 0) {
+	           $("#load").fadeOut('slow');
+	       }
+	       $(".noti").animate({
+	           scrollTop: 200
+	       }, 1000);
+	       console.log($(".item-noti:hidden").length);
+	       if($(".item-noti:hidden").length == 0) {
+	       	  $("#loadMore").hide();
+	       }
+	   });
+	</n:script>
+</zk>
