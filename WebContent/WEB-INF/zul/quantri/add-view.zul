@@ -1,0 +1,89 @@
+<idspace>
+<style>
+	.label-cauhoi{
+			font-weight: bold;
+	}
+	.chitiet-cauhoi{
+		padding: 0.5em;
+	}
+	.box-footer{
+		margin-left: 12em;
+	}
+	
+</style>
+<window xmlns:n="native" xmlns:x="xhtml" xmlns:zk="zk" apply="org.zkoss.bind.BindComposer"
+	id="wdn" border="normal" mode="modal" action="show: slideIn"
+	contentStyle="overflow:auto;" closable="true" title="${arg.save}"
+	onClose="@command('invokeGG', notify=vmArgs, detach=wdn, attr='targetQuery')"
+	whatever="@load(false,after='saveCauHoi') @converter('vn.toancauxanh.service.DetachConverter')"
+	viewModel="@id('vm') @init(arg.vmArgs)" validationMessages="@id('vmsgs')" width="500px">
+			<zscript><![CDATA[ 
+				vmArgs = arg.get("vmArgs");
+				vm.setLinhVuc(new vn.toancauxanh.gg.model.LinhVuc()); 
+			]]></zscript>
+	<div class="row box-body">
+		<div class="col-md-12 col-sm-12 col-xs-12">s
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row chitiet-cauhoi">
+						<div class="col-md-3">
+							<label sclass="label-cauhoi">Họ Và Tên:</label>
+						</div>
+						<div class="col-md-9">
+							<label value="@load(vm.nguoiGoi.ten)"></label>
+						</div>
+					</div>
+					<div class="row chitiet-cauhoi">
+						<div class="col-md-3">
+							<label sclass="label-cauhoi">Địa Chỉ: </label>
+						</div>
+						<div class="col-md-9">
+							<label value="@load(vm.nguoiGoi.diaChi)"></label>
+						</div>
+					</div>
+					<div class="row chitiet-cauhoi">
+						<div class="col-md-3">
+							<label sclass="label-cauhoi">Tiêu Đề:</label>
+						</div>
+						<div class="col-md-9">
+							<label value="@load(vm.tieuDe)"></label>
+						</div>
+					</div>
+					<div class="row chitiet-cauhoi">
+						<div class="col-md-3">
+							<label sclass="label-cauhoi">Nội Dung:</label>
+						</div>
+						<div class="col-md-9">
+							<label value="@load(vm.noiDung)"></label>
+						</div>
+					</div>
+					<div class="form-group" style="margin-left: 0.5em;">
+						<label sclass="label-cauhoi">Chọn Lĩnh Vực</label>
+						<combobox sclass="combo-linhvuc" selectedItem="@bind(vm.linhVuc.linhVuc) @save(vm.linhVuc.linhVuc, before='saveCauHoi')" autodrop="true" placeholder="Chọn lĩnh vực" width="90%" 
+		                    viewModel="@id('vmm') @init('vn.toancauxanh.cms.service.LinhVucService')" model="@load(vmm.allLinhVuc)
+		                    @validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')">
+		                    <template name="model">
+							    <comboitem label="@load(each.linhVuc)" > </comboitem>
+							</template>
+						</combobox>
+					</div>
+					<div class="form-group" style="margin-left: 0.5em;" >
+						<label sclass="label-cauhoi">Chọn Đại biểu</label>
+						<div><combobox width="90%" placeholder="Chọn Đại Biểu"></combobox></div>
+					</div>
+				</div>
+			</div>			
+		</div>		
+	</div>
+	<div class="row box-footer">
+		<x:button class="btn btn-success" 
+			onClick="@command('saveCauHoi', list=vm, attr='targetQuery',wdn=wdn)">
+			<n:i class="fa fa-save"></n:i>&#160;&#160;Lưu 
+		</x:button>
+		<x:button class="btn btn-default" style="margin-left:1em;"
+			onClick="@command('invokeGG', notify=vmArgs, detach=wdn, attr='targetQuery')">
+			<n:i ></n:i>Hủy
+		</x:button>		
+	</div>
+</window>
+</idspace>

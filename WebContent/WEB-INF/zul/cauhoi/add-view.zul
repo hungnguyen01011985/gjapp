@@ -3,34 +3,56 @@
 	id="wdn" border="normal" mode="modal" action="show: slideIn"
 	contentStyle="overflow:auto;" closable="true" title="${arg.save}"
 	onClose="@command('invokeGG', notify=vmArgs, detach=wdn, attr='targetQuery')"
-	whatever="@load(true,after='saveCauHoi') @converter('vn.toancauxanh.service.DetachConverter')"
+	whatever="@load(false,after='saveNguoiGoiAndCauHoi') @converter('vn.toancauxanh.service.DetachConverter')"
 	viewModel="@id('vm') @init(arg.model)" validationMessages="@id('vmsgs')" width="500px">
-		
-		<zscript><![CDATA[
-			vmArgs = arg.get("vmArgs");
-			strSave = arg.get("save");
-			CauHoi = entry.cauHois;
-		]]></zscript> 	
-			
+			<zscript><![CDATA[ 
+				vmattr= arg.get("vmattr");
+				vmwdn = arg.get("vmwdn");
+				vmArgs = arg.get("vmArgs");
+				nguoiGoiss = entry.nguoiGois;
+				if (vm.getlinhvuc == null) {
+					vm.setLinhVuc(new ArrayList<LinhVuc());
+				}
+			]]></zscript>
 	<div class="row box-body">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<x:label>Tiêu Đề</x:label>
+						<x:label>Họ Và Tên</x:label>
 						<textbox class="form-control" maxlength="255"
-								value="@load(vm.tieuDe) @save(vm.tieuDe, before='saveCauHoi') 
+								value="@load(vm.ten) @save(vm.ten, before='saveNguoiGoiAndCauHoi') 
 								@validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')"/>
 						<label class="error" value="@load(vmsgs[self.previousSibling])" />
+					</div>
+					<div class="form-group">
+						<x:label>Địa Chỉ</x:label>
+						<textbox class="form-control" maxlength="255"
+								value="@load(vm.diaChi) @save(vm.diaChi, before='saveNguoiGoiAndCauHoi') 
+								@validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')"/> 
+						<label class="error" value="@load(vmsgs[self.previousSibling])" />
+					</div>
+					<div class="form-group">
+						<x:label>Email</x:label>
+						<textbox class="form-control" maxlength="255"
+								value="@load(vm.email) @save(vm.email, before='saveNguoiGoiAndCauHoi') 
+								@validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')"/> 
+						<label class="error" value="@load(vmsgs[self.previousSibling])" />
+					</div>
+					<div class="form-group">
+						<x:label>Số Điện Thoại</x:label>
+						<textbox class="form-control" maxlength="255"
+								value="@load(vm.soDienThoai) @save(vm.soDienThoai, before='saveNguoiGoiAndCauHoi') 
+ 								@validator('vn.toancauxanh.vm.BaseValid', constraint='no empty')"/> 
+						<label class="error" value="@load(vmsgs[self.previousSibling])"/>
 					</div>
 				</div>
 			</div>			
 		</div>		
 	</div>
-		<zscript>System.out.println(vmArgs)</zscript>
 	<div class="row box-footer">
 		<x:button class="btn btn-success" 
-			onClick="@command('saveCauHoi', list=vmArgs, attr='targetQuery',wdn=wdn)">
+			onClick="@command('saveNguoiGoiAndCauHoi', listnguoigoi=vm, listcauhoi=vmArgs, attr='targetQuery',wdn=wdn, vmattr=vmattr, vmwdn=vmwdn)">
 			<n:i class="fa fa-save"></n:i>&#160;&#160;Lưu 
 		</x:button>
 		<x:button class="btn btn-default" 
